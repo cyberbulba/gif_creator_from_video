@@ -1,5 +1,6 @@
 import imageio
 import os
+import argparse
 from PIL import Image
 
 
@@ -92,6 +93,9 @@ def get_gif(cutted_vid_reader, n_frames, gif_path, ms):
 
 
 def create_gif():
+    console = argparse.ArgumentParser()
+    console.add_argument('params', nargs='*')
+
     while True:
         vid = input('Введите имя файла видео: ')  # 'files/my_video.mp4'
         if os.path.splitext(vid)[1] in ['.mp4'] and os.path.isfile(vid):
