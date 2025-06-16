@@ -1,8 +1,8 @@
 import imageio
 from PIL import Image
 
-vid = 'my_video.mp4'
-gif_path = 'my_gif.gif'
+vid = 'files/my_video.mp4'
+gif_path = 'files/my_gif.gif'
 n_frames = 30
 
 vid_reader = imageio.get_reader(vid)
