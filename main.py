@@ -2,6 +2,7 @@ import imageio
 import os
 import argparse
 from PIL import Image
+from tqdm import tqdm
 
 
 def get_num():
@@ -72,22 +73,23 @@ def get_gif(cutted_vid_reader, n_frames, gif_path, ms):
     """
     frames = []
 
-    for i, frame in enumerate(cutted_vid_reader):
+    for i, frame in enumerate(tqdm(cutted_vid_reader, total=n_frames, desc="Выбор кадров для GIF")):
         pil_image = Image.fromarray(frame)
-
         frames.append(pil_image)
 
         if i + 1 >= n_frames:
             break
 
-    frames[0].save(
-        gif_path,
-        save_all=True,  # сохранить все кадры
-        append_images=frames[1:],  # добавляем остальные кадры к первому
-        duration=ms,  # длительность кадра в мс
-        loop=0,  # 0 = бесконечный цикл gif
-        optimize=True  # оптимизация цвета
-    )
+    with tqdm(total=1, desc="Сохранение GIF") as pbar:
+        frames[0].save(
+            gif_path,
+            save_all=True,
+            append_images=frames[1:],
+            duration=ms,
+            loop=0,
+            optimize=True
+        )
+        pbar.update(1)
 
     print(f"GIF сохранён как {gif_path}")
 
